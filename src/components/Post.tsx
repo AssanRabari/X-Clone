@@ -14,19 +14,19 @@ interface FileDetailsResponse {
   fileType: string;
   customMetadata?: { sensitive: boolean };
 }
-const Post = async ({ type }: { type?: "status" | "comment" }) => {
-  const getFileDetails = async (
-    fileId: string
-  ): Promise<FileDetailsResponse> => {
-    return new Promise((resolve, reject) => {
-      imagekit.getFileDetails(fileId, function (error, result) {
-        if (error) reject(error);
-        else resolve(result as FileDetailsResponse);
-      });
-    });
-  };
+const Post = ({ type }: { type?: "status" | "comment" }) => {
+  // const getFileDetails = async (
+  //   fileId: string
+  // ): Promise<FileDetailsResponse> => {
+  //   return new Promise((resolve, reject) => {
+  //     imagekit.getFileDetails(fileId, function (error, result) {
+  //       if (error) reject(error);
+  //       else resolve(result as FileDetailsResponse);
+  //     });
+  //   });
+  // };
 
-  const fileDetails = await getFileDetails("67e77669432c476416c7f340");
+  // const fileDetails = await getFileDetails("67e77669432c476416c7f340");
 
   return (
     <div className="p-4 border-y-[1px] border-borderGray">
@@ -100,7 +100,7 @@ const Post = async ({ type }: { type?: "status" | "comment" }) => {
               ratione temporibus error!
             </p>
           </Link>
-          {fileDetails && fileDetails.fileType === "image" ? (
+          {/* {fileDetails && fileDetails.fileType === "image" ? (
             <Image
               path={fileDetails.filePath}
               alt=""
@@ -113,7 +113,7 @@ const Post = async ({ type }: { type?: "status" | "comment" }) => {
               path={fileDetails.filePath}
               className={fileDetails.customMetadata?.sensitive ? "blur-lg" : ""}
             />
-          )}
+          )} */}
           {type === "status" && (
             <span className="text-textGray">9:50 AM Dec 5, 2024</span>
           )}

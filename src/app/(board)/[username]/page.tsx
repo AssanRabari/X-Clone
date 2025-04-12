@@ -89,7 +89,7 @@ const UserPage = async ({ params }: { params: { username: string } }) => {
           </div>
         </div>
       </div>
-      <Feed userProfileId={user.id} />
+      <Feed userProfileId={user?.id} />
     </div>
   );
 };
