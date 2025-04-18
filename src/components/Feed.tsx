@@ -27,6 +27,24 @@ const Feed = async ({ userProfileId }: { userProfileId?: string }) => {
       };
   const posts = await prisma.post.findMany({
     where: whereCondition,
+    include: {
+      user: { select: { displayName: true, username: true, img: true } },
+      rePost: {
+        include: {
+          user: { select: { displayName: true, username: true, img: true } },
+          _count: { select: { likes: true, rePosts: true, comments: true } },
+          likes: {where: {userId: userId}, select: {id:true}},
+          rePosts: {where: {userId: userId}, select: {id:true}},
+          saves:  {where: {userId: userId}, select: {id:true}},
+
+        },
+      },
+      _count: { select: { likes: true, rePosts: true, comments: true } },
+      likes: {where: {userId: userId}, select: {id:true}},
+      rePosts: {where: {userId: userId}, select: {id:true}},
+      saves:  {where: {userId: userId}, select: {id:true}},
+
+    },
     take: 3,
     skip: 0,
     orderBy: { createdAt: "desc" },
@@ -34,10 +52,9 @@ const Feed = async ({ userProfileId }: { userProfileId?: string }) => {
 
   return (
     <div className="">
-      {posts.map((post) => (
+      {posts?.map((post) => (
         <div key={post.id}>
-          <Post />
-          FROM SERVER
+          <Post post={post} />
         </div>
       ))}
       <InfiniteFeed userProfileId={userProfileId} />
