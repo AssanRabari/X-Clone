@@ -36,7 +36,6 @@ const Feed = async ({ userProfileId }: { userProfileId?: string }) => {
           likes: {where: {userId: userId}, select: {id:true}},
           rePosts: {where: {userId: userId}, select: {id:true}},
           saves:  {where: {userId: userId}, select: {id:true}},
-
         },
       },
       _count: { select: { likes: true, rePosts: true, comments: true } },
@@ -52,7 +51,7 @@ const Feed = async ({ userProfileId }: { userProfileId?: string }) => {
 
   return (
     <div className="">
-      {posts?.map((post) => (
+      {posts.map((post) => (
         <div key={post.id}>
           <Post post={post} />
         </div>
