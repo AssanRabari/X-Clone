@@ -117,7 +117,7 @@ const Post = ({
             </p>
           </Link>
           {originalPost.img && (
-            <Image path={originalPost.img} alt="" w={600} h={600} />
+            <Image path={originalPost.img} alt="" w={600} h={originalPost.imgHeight || 600 } />
           )}
           {type === "status" && (
             <span className="text-textGray">9:50 AM Dec 5, 2024</span>
