@@ -1,6 +1,6 @@
 "use client";
 
-import { likePost, rePost, savePost } from "@/action";
+import { likePost, rePost, savePost } from "@/actions";
 import { socket } from "@/socket";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
@@ -121,7 +121,10 @@ const PostInteractions = ({
     <div className="flex items-center justify-between gap-4 lg:gap-16 my-2 text-textGray">
       <div className="flex items-center justify-between flex-1">
         {/* COMMENTS */}
-        <Link href={`/${username}/status/${postId}`} className="flex items-center gap-2 cursor-pointer group">
+        <Link
+          href={`/${username}/status/${postId}`}
+          className="flex items-center gap-2 cursor-pointer group"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"

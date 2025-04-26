@@ -61,7 +61,7 @@ const Post = ({
         <div
           className={`${
             type === "status" && "hidden"
-          } relative w-10 h-10 rounded-full overflow-hidden`}
+          } relative w-10 h-10 rounded-full overflow-hidden -z-10`}
         >
           <Image
             path={originalPost.user.img || "X-Clone/general/noAvatar.png"}
@@ -74,7 +74,10 @@ const Post = ({
 
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex justify-between w-full">
-            <Link href={`/${originalPost.user.username}`} className="flex gap-4">
+            <Link
+              href={`/${originalPost.user.username}`}
+              className="flex gap-4"
+            >
               <div
                 className={`${
                   type !== "status" && "hidden"
@@ -111,25 +114,32 @@ const Post = ({
             </Link>
             <PostInfo />
           </div>
-          <Link href={`/${originalPost.user.username}/status/${originalPost.id}`}>
+          <Link
+            href={`/${originalPost.user.username}/status/${originalPost.id}`}
+          >
             <p className={`${type === "status" && "text-lg"}`}>
               {originalPost.desc}
             </p>
           </Link>
           {originalPost.img && (
-            <Image path={originalPost.img} alt="" w={600} h={originalPost.imgHeight || 600 } />
+            <Image
+              path={originalPost.img}
+              alt=""
+              w={600}
+              h={originalPost.imgHeight || 600}
+            />
           )}
           {type === "status" && (
             <span className="text-textGray">9:50 AM Dec 5, 2024</span>
           )}
 
           <PostIneractions
+            username={originalPost.user.username}
             postId={originalPost.id}
             count={originalPost._count}
             isLiked={!!originalPost.likes.length}
-            isReposted={!!originalPost.rePosts.length}
+            isRePosted={!!originalPost.rePosts.length}
             isSaved={!!originalPost.saves.length}
-
           />
         </div>
       </div>

@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "./Image";
+import Socket from "./Socket";
+import Notification from "./Notification";
 
 const menuList = [
   {
@@ -14,12 +16,12 @@ const menuList = [
     link: "/",
     icon: "explore.svg",
   },
-  {
-    id: 3,
-    name: "Notification",
-    link: "/",
-    icon: "notification.svg",
-  },
+  // {
+  //   id: 3,
+  //   name: "Notification",
+  //   link: "/",
+  //   icon: "notification.svg",
+  // },
   {
     id: 4,
     name: "Messages",
@@ -72,20 +74,27 @@ const LeftBar = () => {
           <Image path="X-Clone/icons/logo.svg" alt="logo" w={24} h={24} />
         </Link>
         <div className="flex flex-col gap-4">
-          {menuList.map((item) => (
-            <Link
-              href={item.link}
-              className="p-2 rounded-full hover:bg-[#181818] flex items-center gap-4"
-              key={item.id}
-            >
-              <Image
-                path={`X-Clone/icons/${item.icon}`}
-                alt={item.name}
-                w={24}
-                h={24}
-              />
-              <span className="hidden xxl:inline">{item.name}</span>
-            </Link>
+          {menuList.map((item, index) => (
+            <>
+              {index === 2 && (
+                <div key="custom-item">
+                  <Notification />
+                </div>
+              )}
+              <Link
+                href={item.link}
+                className="p-2 rounded-full hover:bg-[#181818] flex items-center gap-4"
+                key={item.id}
+              >
+                <Image
+                  path={`X-Clone/icons/${item.icon}`}
+                  alt={item.name}
+                  w={24}
+                  h={24}
+                />
+                <span className="hidden xxl:inline">{item.name}</span>
+              </Link>
+            </>
           ))}
         </div>
         {/* BUTTON */}
@@ -102,6 +111,7 @@ const LeftBar = () => {
           Post
         </Link>
       </div>
+      <Socket />
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-10 h-10 relative rounded-full overflow-hidden">

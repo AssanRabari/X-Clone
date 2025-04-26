@@ -7,10 +7,17 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 
-const UserPage = async ({ params }: { params: { username: string } }) => {
+const UserPage = async ({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}) => {
   const { userId } = await auth();
+
+  const username = (await params).username;
+
   const user = await prisma.user.findUnique({
-    where: { username: params.username },
+    where: { username: username },
     include: {
       _count: { select: { followers: true, followings: true } },
       followings: userId ? { where: { followerId: userId } } : undefined,

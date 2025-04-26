@@ -4,8 +4,9 @@ import { useUser } from "@clerk/nextjs";
 import Image from "./Image";
 import Post from "./Post";
 import { Post as PostType } from "@prisma/client";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { addComment } from "@/actions";
+import { socket } from "@/socket";
 type commentsWithDetails = PostType & {
   user: { displayName: string | null; username: string; img: string | null };
   _count: { likes: number; rePosts: number; comments: number };
@@ -29,6 +30,19 @@ const Comments = ({
     error: false,
   });
 
+  useEffect(() => {
+    if (state.success) {
+      socket.emit("sendNotification", {
+        receiverUsername: username,
+        data: {
+          senderUsername: user?.username,
+          type: "comment",
+          link: `/${username}/status/${postId}`,
+        },
+      });
+    }
+  }, [state.success, username, user?.username, postId]);
+  
   return (
     <div className="">
       {user && (
@@ -36,7 +50,7 @@ const Comments = ({
           action={formAction}
           className="flex items-center justify-between gap-4 p-4 "
         >
-          <div className="relative w-10 h-10 rounded-full overflow-hidden">
+          <div className="relative w-10 h-10 rounded-full overflow-hidden -z-10">
             <Image
               src={user?.imageUrl}
               alt="Test user"
@@ -51,13 +65,7 @@ const Comments = ({
             className="flex-1 bg-transparent outline-none p-2 text-xl"
             placeholder="Post your reply"
           />
-          <input
-            type="number"
-            name="postId"
-            hidden
-            readOnly
-            value={postId}
-          />
+          <input type="number" name="postId" hidden readOnly value={postId} />
           <input
             type="string"
             name="username"
