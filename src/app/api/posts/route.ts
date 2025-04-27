@@ -1,4 +1,5 @@
 import { prisma } from "@/prisma";
+import { postInculdeQuery } from "@/utils";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest } from "next/server";
 
@@ -29,23 +30,14 @@ export async function GET(request: NextRequest) {
             ],
           },
         };
+
   const posts = await prisma.post.findMany({
     where: whereCondition,
     include: {
-      user: { select: { displayName: true, username: true, img: true } },
       rePost: {
-        include: {
-          user: { select: { displayName: true, username: true, img: true } },
-          _count: { select: { likes: true, rePosts: true, comments: true } },
-          likes: { where: { userId: userId }, select: { id: true } },
-          rePosts: { where: { userId: userId }, select: { id: true } },
-          saves: { where: { userId: userId }, select: { id: true } },
-        },
+        include: postInculdeQuery(userId),
       },
-      _count: { select: { likes: true, rePosts: true, comments: true } },
-      likes: { where: { userId: userId }, select: { id: true } },
-      rePosts: { where: { userId: userId }, select: { id: true } },
-      saves: { where: { userId: userId }, select: { id: true } },
+      ...postInculdeQuery(userId),
     },
 
     take: LIMIT,

@@ -75,16 +75,15 @@ const LeftBar = () => {
         </Link>
         <div className="flex flex-col gap-4">
           {menuList.map((item, index) => (
-            <>
+            <div key={item.id || index}>
               {index === 2 && (
-                <div key="custom-item">
+                <div>
                   <Notification />
                 </div>
               )}
               <Link
                 href={item.link}
                 className="p-2 rounded-full hover:bg-[#181818] flex items-center gap-4"
-                key={item.id}
               >
                 <Image
                   path={`X-Clone/icons/${item.icon}`}
@@ -94,7 +93,7 @@ const LeftBar = () => {
                 />
                 <span className="hidden xxl:inline">{item.name}</span>
               </Link>
-            </>
+            </div>
           ))}
         </div>
         {/* BUTTON */}
